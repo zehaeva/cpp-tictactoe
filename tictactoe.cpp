@@ -65,24 +65,31 @@ int main(void) {
 		x = get_coordinate("Enter the row: ");
 		y = get_coordinate("Enter the column: ");
 
-		if (turn) {
-			board[x][y] = 1;
-		} else {
-			board[x][y] = 2;
-		}
-
-		if (game_won(board)) {
-			cout << "Congratulations ";
-			switch (turn) {
-				case true:
-					cout << "X";
-				case false:
-					cout << "O";
+		if (board[x][y] == 0) {
+			if (turn) {
+				board[x][y] = 1;
+			} else {
+				board[x][y] = 2;
 			}
-			cout << "! You've won!\n";
-			running = false;
-		}
 
-		turn = !turn;
+			if (game_won(board)) {
+				cout << "Congratulations ";
+				switch (turn) {
+					case true:
+						cout << "X";
+						break;
+					case false:
+						cout << "O";
+						break;
+				}
+				cout << "! You've won!\n";
+				running = false;
+			}
+
+			turn = !turn;
+		}
+		else {
+			cout << "That space isn't free! Pick another one!";
+		}
 	}
 }
