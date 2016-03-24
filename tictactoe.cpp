@@ -66,7 +66,6 @@ int main(void) {
 	bool running = true;
 
 	while (running) {
-	
 		print_board(board);
 
 		x = get_coordinate("Enter the row: ");
@@ -90,6 +89,7 @@ int main(void) {
 						break;
 				}
 				cout << "! You've won!\n";
+				print_board(board);
 				running = false;
 			}
 
