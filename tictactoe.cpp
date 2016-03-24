@@ -1,4 +1,5 @@
-#include "iostream"
+#include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -22,6 +23,16 @@ void print_board(int board[3][3]) {
 	}
 }
 
+int get_coordinate(string prompt) {
+	int x;
+
+	cout << prompt;
+	cin >> x;
+
+	return x;
+}
+
+
 int main(void) {
 	int board[3][3];
 	int i, j, x, y;
@@ -34,10 +45,8 @@ int main(void) {
 	
 	print_board(board);
 
-	cout << "Enter the row: ";
-	cin >> x;
-	cout << "Enter the column: ";
-	cin >> y;
+	x = get_coordinate("Enter the row: ");
+	y = get_coordinate("Enter the column: ");
 
 	cout << "You entered " << x << ", " << y << "\n";
 }
