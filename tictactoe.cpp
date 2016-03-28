@@ -3,25 +3,63 @@
 
 using namespace std;
 
-void print_board(int board[3][3]) {
-	for (int i=0;i<3;i++) {
-		for (int j=0;j<3;j++) {
-			switch (board[i][j]) {
-				case 0:
-					cout << "_";
-					break;
-				case 1:
-					cout << "X";
-					break;
-				case 2:
-					cout << "O";
-					break;
+class Board {
+		int board[3][3];
+
+	public:
+		Board() {
+			for (int i=0;i<3;i++) {
+				for (int j=0;j<3;j++) {
+					board[i][j] = 0;
+				}
 			}
-			cout << " ";
 		}
-		cout << "\n";
-	}
-}
+		void print() {
+			for (int i=0;i<3;i++) {
+				for (int j=0;j<3;j++) {
+					switch (board[i][j]) {
+						case 0:
+							cout << "_";
+							break;
+						case 1:
+							cout << "X";
+							break;
+						case 2:
+							cout << "O";
+							break;
+					}
+					cout << " ";
+				}
+				cout << "\n";
+			}
+		}
+		void set(int x, int y, int value) {
+			board[x][y] = value;
+		}
+		int get(int x, int y) {
+			return board[x][y];
+		}
+
+		bool game_won() {
+			bool won = false;
+			for (int i=0;i<3;i++) {
+				if (board[i][0] != 0 && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+					won = true;
+					break;
+				} else if (board[0][i] != 0 && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
+					won = true;
+					break;
+				} 
+			}
+			if (board[0][0] != 0 && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+				won = true;
+			} else if (board[0][2] != 0 && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+				won = true;
+			}
+
+			return won;
+		}
+};
 
 int get_coordinate(string prompt) {
 	int x;
@@ -32,53 +70,28 @@ int get_coordinate(string prompt) {
 	return x;
 }
 
-bool game_won(int board[3][3]) {
-	bool won = false;
-	for (int i=0;i<3;i++) {
-		if (board[i][0] != 0 && board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
-			won = true;
-			break;
-		} else if (board[0][i] != 0 && board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
-			won = true;
-			break;
-		} 
-	}
-	if (board[0][0] != 0 && board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
-		won = true;
-	} else if (board[0][2] != 0 && board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
-		won = true;
-	}
-
-	return won;
-}
 
 int main(void) {
-	int board[3][3];
+	Board board;
 	int i, j, x, y;
-
-	for (i=0;i<3;i++) {
-		for (j=0;j<3;j++) {
-			board[i][j] = 0;
-		}
-	}
 
 	bool turn = true;
 	bool running = true;
 
 	while (running) {
-		print_board(board);
+		board.print();
 
 		x = get_coordinate("Enter the row: ");
 		y = get_coordinate("Enter the column: ");
 
-		if (board[x][y] == 0) {
+		if (board.get(x, y) == 0) {
 			if (turn) {
-				board[x][y] = 1;
+				board.set(x, y, 1);
 			} else {
-				board[x][y] = 2;
+				board.set(x, y, 2);
 			}
 
-			if (game_won(board)) {
+			if (board.game_won()) {
 				cout << "Congratulations ";
 				switch (turn) {
 					case true:
@@ -89,7 +102,7 @@ int main(void) {
 						break;
 				}
 				cout << "! You've won!\n";
-				print_board(board);
+				board.print();
 				running = false;
 			}
 
